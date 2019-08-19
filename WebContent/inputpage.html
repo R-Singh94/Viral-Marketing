@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Case</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <script src="jquery/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+  var json = {
+		  brand : [],
+		  personality : [],
+		  category : []
+  }; 	
+  function addelement(n)
+  {
+  	var tb;
+  	var list;
+  	var rang;
+  	var brand;
+  	var value;
+  	if(n==1)
+  	{
+  		tb="btextbox";
+  		list="brandlist";
+  		rang="brange";
+  		brand=document.getElementById(tb).value;
+  		value=document.getElementById(rang).value;
+  		json.brand.push({
+  			"name" : brand,
+  			"score" : value
+  		});
+  	}
+  	else if(n==2)
+  	{
+  		tb="ptextbox";
+  		list="personalitylist";
+  		rang="prange";
+  		brand=document.getElementById(tb).value;
+  		value=document.getElementById(rang).value;
+  		json.personality.push({
+  			"name" : brand,
+  			"score" : value
+  		});
+  	}
+  	else{
+  		tb="ctextbox";
+  		list="categorylist";
+  		rang="crange";
+  		brand=document.getElementById(tb).value;
+  		value=document.getElementById(rang).value;
+  		json.category.push({
+  			"name" : brand,
+  			"score" : value
+  		});
+  	}
+    var ul = document.getElementById(list);
+  	var li=document.createElement("li");
+  	li.appendChild(document.createTextNode(brand));
+  	li.appendChild(document.createTextNode(" "+value));
+    ul.appendChild(li);
+  }
+  $(document).ready(function() {
+	  $('#viralmarket').submit(function(e) {   
+		  e.preventDefault();
+		  var productName = $('#product').val();
+		  var age1 = $('#age1').val();
+		  var age2 = $('#age2').val();
+		  var country = $('#country').val();
+		  var city = $('#city').val();
+		  json.product = productName;
+		  json.age1 = age1;
+		  json.age2 = age2;
+		  json.country = country;
+		  json.city = city;
+		  var jsonStr = JSON.stringify(json);
+		  $.ajax({
+	             url:'http://localhost:8081/FinalProject/SelectorForm',
+	             type:'POST',
+	             data:{"input" : jsonStr},
+	             success: function(){
+	            	 //document.viral.submit();
+	             }
+	       });
+	  });
+  });
+  </script>
+</head>
+<body>
+
+<div class="container">
+  <h2>SEED SPECIFICATION</h2>
+  <ul class="nav nav-pills">
+    <li class="active"><a data-toggle="pill" href="#info">BASIC INFORMATION</a></li>
+    <li><a data-toggle="pill" href="#brand">BRAND</a></li>
+    <li><a data-toggle="pill" href="#personality">PERSONALITY</a></li>
+    <li><a data-toggle="pill" href="#category">CATEGORY</a></li>
+  </ul>
+  <form action="SelectorForm" data-toggle="validator" method="post" class="form-horizontal" role="form" id="viralmarket" name="viral">
+  <div class="tab-content">
+    <div id="info" class="tab-pane fade in active">
+    <br/><br/><br/><br/>
+      <h3>BASIC INFORMATION</h3>
+      <br/><br/>
+       <div class="form-group">
+      <label class="col-sm-2 control-label">Product Name:</label>
+      <div class="col-sm-5">
+        <input class="form-control" id="product" type="text" placeholder="Enter product name..">
+      </div>
+    </div>
+    <br/><br/><br/>
+    <div class="form-group">
+     <label class="col-sm-2 control-label">AGE RANGE:</label>
+         <div class="col-sm-10">
+     		<div class="col-xs-2">
+     			<label class="col-sm-1 control-label">MIN:</label><input class="form-control" type="number" id="age1">
+     		</div>
+     	<div class="col-xs-2">
+     			<label class="col-sm-1 control-label">MAX:</label><input class="form-control" type="number" id="age2">
+    	</div>
+    	</div>
+    </div>
+    <br/><br/><br/>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">COUNTRY:</label>
+      	<div class="col-sm-5">
+        <input class="form-control" id="country" type="text" placeholder="country..">
+      	</div>
+   </div>
+     <div class="form-group"> 
+  		<label class="col-sm-2 control-label">City:</label>
+      	<div class="col-sm-5">
+        <input class="form-control" id="city" type="text" placeholder="city..">
+      	</div>
+    </div>
+    </div>
+    <div id="brand" class="tab-pane fade">
+      <h3>BRAND</h3><br/><br/>
+      <div class="form-group">
+      <label class="col-sm-2 control-label">BRAND:</label>
+      <div class="col-sm-5">
+		<input type="text" class="form-control" placeholder="enter the brand name" id="btextbox"/>
+			&nbsp;&nbsp;
+			<input type="range" min="1" max="5" step="1" class="range" id="brange"/>
+			</div>
+		<center><input type="button" value="add more.." class="addmore" onclick="addelement(1)"/></center>
+		</div>
+<br/><ul id="brandlist"></ul>
+</div>
+    <div id="personality" class="tab-pane fade">
+      <h3>PERSONALITY</h3><br/><br/>
+      <div class="form-group">
+<label class="col-sm-2 control-label">PERSONALITY:</label>
+ <div class="col-sm-5">
+<input type="text" class="form-control" placeholder="enter the name of the personality" id="ptextbox"/>
+&nbsp;&nbsp;
+<input type="range"  min="1" max="5" step="1" class="range" id="prange"/>
+</div>
+<center><input type="button" value="add more.." class="addmore" onclick="addelement(2)"></center>
+</div>
+<br/><ul id="personalitylist"></ul>
+</div>
+    <div id="category" class="tab-pane fade">
+      <h3>CATEGORY</h3><br/><br/>
+      <div class="form-group">
+<label class="col-sm-2 control-label">CATEGORY:</label>
+ <div class="col-sm-5">
+<input type="text" class="form-control" placeholder="enter the category" id="ctextbox"/>
+&nbsp;&nbsp;
+<input type="range"  min="1" max="5" step="1" class="range" id="crange"/>
+</div>
+<center><input type="button" value="add more.." class="addmore" onclick="addelement(3)"></center>
+</div>
+<br/><ul id="categorylist"></ul>
+<input type="submit" value="submit" />
+<br/><a href="http://localhost:8081/FinalProject/outputpage.html">Results</a>
+  </form>
+</div>
+    </div>
+</div>
+</body>
+</html>

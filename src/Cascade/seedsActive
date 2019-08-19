@@ -1,0 +1,1 @@
+{"rows":[{"c":[{"v":"User 252"},{"v":163}]},{"c":[{"v":"User 312"},{"v":37}]},{"c":[{"v":"User 277"},{"v":33}]},{"c":[{"v":"User 119"},{"v":10}]},{"c":[{"v":"User 25"},{"v":3}]},{"c":[{"v":"User 322"},{"v":2}]}],"cols":[{"id":"user","label":"User ID","type":"string"},{"id":"active","label":"Activated","type":"number"}]}
